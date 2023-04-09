@@ -35,7 +35,7 @@
 
   function novaIgra() {
     registracijaBox.style.display = "flex";
-    pobednikBox.remove();
+    document.querySelector(".winner-box").remove();
   }
 
   function init() {
@@ -137,6 +137,18 @@
     };
   }
 
+  function dobijeneKockice(kockice) {
+    if (kockice.length === 0) {
+      return "";
+    } else {
+      let kocka = kockice.shift(); 
+      return (
+        `<img src="img/${kockiceSlika.kocka[kocka]}" alt="" />` +
+        dobijeneKockice(kockice)
+      );
+    }
+  }
+
   function prikaziPobednika() {
     let pobednik = igraci[trenutnaIgra.igrac];
     let poeni = igraci[trenutnaIgra.igrac].ukupno;
@@ -151,9 +163,7 @@
     pobednik.getKocka.forEach((runda, brojIgre) => {
       text += `<li><span>${brojIgre + 1}</span>`;
 
-      runda.forEach((koc) => {
-        text = text + `<img src="img/${kockiceSlika.kocka[koc]}" alt="" />`;
-      });
+      text += dobijeneKockice(runda); 
 
       text += `</li>`;
     });
